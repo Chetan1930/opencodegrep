@@ -1,14 +1,18 @@
-const {exec}=require('child_process')
-const path =require('path')
-const runc=(codePath)=>{
-    var runfile=path.resolve(codePath)
-    const op=runfile.replaceAll(/\\/g,"/")
-    const filename=path.basename(codePath)
-    const command=`cd ${path.dirname(op)} && g++ ${filename.split('.')[0]}.c && ${filename.split('.')[0].exe}`
-    exec(`${command}`,(err,stdout,stderr)=>{
-        console.log(err);
-        console.log(stdout);
-        console.log(stderr);
+const { exec } = require('child_process')
+const path = require('path')
+const runc = async (codePath) => {
+    var runfile = path.resolve(codePath)
+    const op = runfile.replaceAll(/\\/g, "/")
+    const filename = path.basename(codePath)
+    const command = `cd ${path.dirname(op)} && g++ ${filename.split('.')[0]}.c && a.exe`
+    var arr = []
+    exec(`${command}`, (err, stdout, stderr) => {
+        arr.push(err)
+        arr.push(stdout)
+        arr.push(stderr)
     })
- }
-module.exports={runc};
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+    await delay(1000)
+    return arr
+}
+module.exports = { runc };
