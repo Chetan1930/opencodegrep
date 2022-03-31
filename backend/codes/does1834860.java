@@ -1,0 +1,1 @@
+public class does1834860 { public static void main(String[] args) { System.out.println("Hello Nisar"); } }
