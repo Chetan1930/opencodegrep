@@ -7,7 +7,7 @@ import cppraw from './cpp.txt'
 import javaraw from './java.txt'
 import craw from './c.txt'
 import pyraw from './py.txt'
-import loadinggif from './assets/redload.gif'
+import loadinggif from './assets/ZZ5H.gif'
 
 
 function App() {
@@ -86,12 +86,12 @@ function App() {
     <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
       {
         loading ? (<>
-          <img style={{ width: '50px', position: 'absolute', top: '40%', left: '50%', zIndex: '999' }} src={loadinggif} alt="" />
-          <h6 style={{ width: '50px', position: 'absolute', top: '47.75%', left: '49.74%', zIndex: '999',color:'white' }}>Running</h6></>
+          <img style={{ width: '45px', position: 'absolute', top: '40%', left: '50%', zIndex: '999' }} src={loadinggif} alt="" />
+          <h6 style={{ position: 'absolute', top: '47.58%', left: '49.52%', zIndex: '999',color:'white' }}>Running</h6></>
         ) : (<></>)
       }
       <Navbar run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
-      <TextEditor code={setCode} c={code}></TextEditor>
+      <TextEditor code={setCode} c={code} lang={language}></TextEditor>
       <Output op={output}></Output>
     </div>
   );
