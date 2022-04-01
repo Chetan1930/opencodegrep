@@ -5,7 +5,7 @@ export const Navbar = (props) => {
         props.selectlang(e.target.value)
     }
     return (
-        <nav className="navbar navbar-light" style={{ backgroundColor: '#333333' ,borderBottom:'1px solid #616161'}}>
+        <nav className="navbar navbar-light" style={{ backgroundColor: 'rgb(40,40,40)' ,borderBottom:'1px solid rgb(56 56 56)'}}>
             <div className="container-fluid">
                 <a href="/" className="navbar-brand" style={{ color: 'white' ,fontSize:'18.5px',paddingLeft:'0.25vw'}}>CPE Online Compiler</a>
                 <div style={{display:'flex',flexDirection:'row'}}>

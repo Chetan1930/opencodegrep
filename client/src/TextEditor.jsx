@@ -13,7 +13,7 @@ export const TextEditor = (props) => {
                 value={props.c}
                 language={props.lang}
                 onChange={(e) => handleCode(e)}
-                style={{ backgroundColor: '#202020', width: '100%', fontSize: '0.9em', }}
+                style={{ backgroundColor: '#202020', width: '100%', fontSize: '1em'}}
             />
         </div>
 
