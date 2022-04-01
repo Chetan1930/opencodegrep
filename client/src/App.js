@@ -36,10 +36,14 @@ function App() {
   }
   useEffect(() => {
     setLoading(true)
-    setLanguage('cpp')
+    if(localStorage.getItem('lang')){
+      setLanguage(localStorage.getItem('lang'))
+    }
+    else setLanguage('cpp')
     setLoading(false)
   }, [])
   useEffect(() => {
+    localStorage.setItem('lang',language)
     if (language === 'cpp') {
       fetch(cppraw)
         .then(function (response) {
@@ -86,7 +90,7 @@ function App() {
           <h6 style={{ width: '50px', position: 'absolute', top: '47.75%', left: '49.74%', zIndex: '999',color:'white' }}>Running</h6></>
         ) : (<></>)
       }
-      <Navbar run={sendCode} selectlang={setProplang}></Navbar>
+      <Navbar run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
       <TextEditor code={setCode} c={code}></TextEditor>
       <Output op={output}></Output>
     </div>
