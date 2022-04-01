@@ -12,7 +12,7 @@ const runcpp=async(codePath)=>{
         arr.push(stderr)
     })
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-    await delay(1000)
+    await delay(2500)
     return arr
  }
 module.exports={runcpp};

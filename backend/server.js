@@ -5,7 +5,6 @@ const { createFile } = require('./createFile')
 const { runcpp } = require('./runCpp')
 const { runjava } = require('./runJava')
 const { runpy } = require('./runPy')
-const { runjs } = require('./runJs')
 const { runc } = require('./runC')
 
 const app = express()
@@ -16,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/run', async (req, res) => {
     const { language, code } = req.body
-    if (!language) return res.json({ error: 'No language mentione' })
+    if (!language) return res.json({ error: 'No language mentioned' })
     if (!code) return res.json({ error: 'Empty code' })
     const fileCreatedPath = await createFile(code, language)
     if (language === 'cpp') {
@@ -29,10 +28,6 @@ app.post('/run', async (req, res) => {
     }
     if (language === 'py') {
         const out = await runpy(fileCreatedPath)
-        res.send(out);
-    }
-    if (language === 'js') {
-        const out = await runjs(fileCreatedPath)
         res.send(out);
     }
     if (language === 'c') {
