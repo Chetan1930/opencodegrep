@@ -6,6 +6,8 @@ const { runcpp } = require('./runCpp')
 const { runjava } = require('./runJava')
 const { runpy } = require('./runPy')
 const { runc } = require('./runC')
+const {deleteFile}=require('./deleteFile')
+
 
 const app = express()
 app.use(express.json())
@@ -20,18 +22,22 @@ app.post('/run', async (req, res) => {
     const fileCreatedPath = await createFile(code, language)
     if (language === 'cpp') {
         const out = await runcpp(fileCreatedPath)
+        deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'java') {
         const out =await  runjava(fileCreatedPath)
+        deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'py') {
         const out = await runpy(fileCreatedPath)
+        deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'c') {
         const out = await runc(fileCreatedPath)
+        deleteFile(fileCreatedPath)
         res.send(out);
     }
 })
