@@ -15,6 +15,11 @@ function App() {
   const [language, setLanguage] = useState('java')
   const [output, setOutput] = useState([])
   const [loading, setLoading] = useState(false)
+  const [dark, setDark] = useState(false)
+  const [bg, setBg] = useState('rgb(40,40,40)')
+  const [bg1, setBg1] = useState('#202020')
+  const [color,setColor]=useState('white')
+  const [border,setBorder]=useState('rgb(56 56 56)')
   async function sendCode() {
     setLoading(true)
     const resp = await fetch('http://localhost:5000/run', {
@@ -36,14 +41,38 @@ function App() {
   }
   useEffect(() => {
     setLoading(true)
-    if(localStorage.getItem('lang')){
+    if (localStorage.getItem('lang')) {
       setLanguage(localStorage.getItem('lang'))
     }
     else setLanguage('cpp')
     setLoading(false)
+
+    if (localStorage.getItem('dark')===true || localStorage.getItem('dark')===true) {
+      setDark(localStorage.getItem('dark'))
+    }
+    else setDark(false)
   }, [])
+  function handleDark() {
+    if(dark===false){
+      setBg('rgb(40,40,40)')
+      setBg1('#202020')
+      setColor('white')
+      setBorder('rgb(56 56 56)')
+    }
+    else{
+      setBg('rgb(235 235 235)')
+      setBg1('#F7F7F7')
+      setColor('black')
+      setBorder('rgb(218 218 218)')
+    }
+    setDark(!dark)
+  }
   useEffect(() => {
-    localStorage.setItem('lang',language)
+    localStorage.setItem('dark', dark)
+  }, [dark])
+
+  useEffect(() => {
+    localStorage.setItem('lang', language)
     if (language === 'cpp') {
       fetch(cppraw)
         .then(function (response) {
@@ -87,12 +116,12 @@ function App() {
       {
         loading ? (<>
           <img style={{ width: '45px', position: 'absolute', top: '40%', left: '50%', zIndex: '999' }} src={loadinggif} alt="" />
-          <h6 style={{ position: 'absolute', top: '47.58%', left: '49.52%', zIndex: '999',color:'white' }}>Running</h6></>
+          <h6 style={{ position: 'absolute', top: '47.58%', left: '49.52%', zIndex: '999', color: color }}>Running</h6></>
         ) : (<></>)
       }
-      <Navbar run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
-      <TextEditor code={setCode} c={code} lang={language}></TextEditor>
-      <Output op={output}></Output>
+      <Navbar border={border} col={color} bgcol={bg} run={sendCode} selectlang={setProplang} langsel={language} dark={handleDark} mode={dark}></Navbar>
+      <TextEditor bgcol={bg1} code={setCode} c={code} lang={language}></TextEditor>
+      <Output border={border} col={color} bgcol={bg} op={output}></Output>
     </div>
   );
 }
