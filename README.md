@@ -3,13 +3,12 @@ Welcome to CPE Online Compiler.
 CPE is an open source online code compiler for C, C++, Python, Java.
 
 ### Functionality
-- Free and fast compiler
-- Wide language support
-- Error at which line is shown
+- Error shown at which line
 - Output formatted
 - Comments
-- dark / light mode
-
+- Syntax Highlight
+- Dark / light mode
+- Auto indent
 
 <img src="./images/1.png">
 <img src="./images/2.png">
