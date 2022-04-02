@@ -34,6 +34,7 @@ function App() {
     })
     const data = await resp.json()
     setLoading(false)
+    // console.log(data);
     setOutput(data);
   }
   function setProplang(e) {
@@ -61,7 +62,7 @@ function App() {
     }
     else{
       setBg('rgb(235 235 235)')
-      setBg1('#F7F7F7')
+      setBg1('#F2F3F5')
       setColor('black')
       setBorder('rgb(218 218 218)')
     }

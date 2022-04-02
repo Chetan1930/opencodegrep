@@ -8,6 +8,8 @@ body {
   background-color: rgb(36 38 38);
   font-family: 'Noto Sans', sans-serif;
 font-family: 'Source Code Pro', monospace;
+-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
