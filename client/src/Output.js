@@ -6,7 +6,7 @@ export const Output = (props) => {
             <h6 style={{ color: props.col, zIndex: '99', position: 'absolute', top: '15px', fontSize: '15.25px' }}>Output </h6>
             <div className="output" style={{ color: 'white', display: 'flex', flexDirection: 'column' }}>
                 {(props.op[0]) ?
-                    <span style={{ color: 'green' }}> Build success: </span> : <></>}
+                    <span style={{ color: props.buildcol }}> Build success: <span style={{color:'gray'}}> {props.op[2]}ms execution time</span></span> : <></>}
                 <p style={{ color: props.col }}>{props.op[0]}</p>
                 {(props.op[1]) ?
                     <span style={{ color: 'red' ,marginTop:'-15px'}}> Build failed: </span> : <></>}

@@ -9,6 +9,7 @@ const runpy = async (codePath) => {
     try {
         const out=execSync(`${command}`)
         arr.push(out.toString());
+        arr.push('')
     }catch(e){
         arr.push('')
         arr.push(e.stderr.toString());

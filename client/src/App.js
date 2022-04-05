@@ -20,6 +20,8 @@ function App() {
   const [bg1, setBg1] = useState('#202020')
   const [color,setColor]=useState('white')
   const [border,setBorder]=useState('rgb(56 56 56)')
+  const [buildcolor,setBuildcol]=useState('#65de65')
+  //
   async function sendCode() {
     setLoading(true)
     const resp = await fetch('http://localhost:5000/run', {
@@ -34,7 +36,7 @@ function App() {
     })
     const data = await resp.json()
     setLoading(false)
-    // console.log(data);
+    console.log(data);
     setOutput(data);
   }
   function setProplang(e) {
@@ -59,12 +61,14 @@ function App() {
       setBg1('#202020')
       setColor('white')
       setBorder('rgb(56 56 56)')
+      setBuildcol('#65de65')
     }
     else{
       setBg('rgb(235 235 235)')
       setBg1('#F2F3F5')
       setColor('black')
       setBorder('rgb(218 218 218)')
+      setBuildcol('#227f22')
     }
     setDark(!dark)
   }
@@ -122,7 +126,7 @@ function App() {
       }
       <Navbar border={border} col={color} bgcol={bg} run={sendCode} selectlang={setProplang} langsel={language} dark={handleDark} mode={dark}></Navbar>
       <TextEditor bgcol={bg1} code={setCode} c={code} lang={language}></TextEditor>
-      <Output border={border} col={color} bgcol={bg} op={output}></Output>
+      <Output buildcol={buildcolor} border={border} col={color} bgcol={bg} op={output}></Output>
     </div>
   );
 }

@@ -6,7 +6,7 @@ const { runcpp } = require('./runCpp')
 const { runjava } = require('./runJava')
 const { runpy } = require('./runPy')
 const { runc } = require('./runC')
-const {deleteFile}=require('./deleteFile')
+const { deleteFile } = require('./deleteFile')
 
 
 const app = express()
@@ -16,27 +16,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.post('/run', async (req, res) => {
+    const inDate = new Date()
     const { language, code } = req.body
     if (!language) return res.json({ error: 'No language mentioned' })
     if (!code) return res.json({ error: 'Empty code' })
     const fileCreatedPath = await createFile(code, language)
     if (language === 'cpp') {
         const out = await runcpp(fileCreatedPath)
+        out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'java') {
-        const out =await  runjava(fileCreatedPath)
+        const out = await runjava(fileCreatedPath)
+        out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'py') {
         const out = await runpy(fileCreatedPath)
+        out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         res.send(out);
     }
     if (language === 'c') {
         const out = await runc(fileCreatedPath)
+        out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         res.send(out);
     }
