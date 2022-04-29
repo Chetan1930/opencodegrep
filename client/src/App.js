@@ -22,7 +22,8 @@ function App() {
   const [input,setInput]=useState('')
   //
   async function sendCode() {
-    const resp = await fetch('http://localhost:8000/run', {
+    // in development mode this will be localhost:8000
+    const resp = await fetch('http://3.120.129.71:8000/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
