@@ -10,10 +10,10 @@ export const Navbar = (props) => {
                 <a href="/" className="navbar-brand" style={{ color: 'white', fontSize: '19.9px', paddingLeft: '0.25vw',fontWeight:"normal" }}><span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}>&lt;</span>codegrep/<span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}>&gt;</span></a>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* <button onClick={()=>{props.dark()}} style={{backgroundColor:'transparent',outline:'none',border:'none',width:'fit-content',height:'fit-content'}}><img src={dark} style={{width:'30px',height:'30px',marginBottom:'-11px'}} alt="" /></button> */}
-                    <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase' }}>
+                    <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase',backgroundColor:'#5090D3' }}>
                         run
                     </Button>
-                    <select className="form-select mx-4" style={{ width: '8vw', fontSize: '0.85em', marginTop: '1.9px',height:'34px' }} aria-label="Default select example" onChange={(e) => handleSelect(e)} value={props.langsel}>
+                    <select className="form-select mx-4" style={{ width: '8vw', fontSize: '12px', marginTop: '1.9px',height:'34px' }} aria-label="Default select example" onChange={(e) => handleSelect(e)} value={props.langsel}>
                         <option value="cpp">C++</option>
                         <option value="java">Java</option>
                         <option value="py">Python</option>
