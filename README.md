@@ -1,6 +1,6 @@
-# CPE Online Compiler.
-Welcome to CPE Online Compiler.
-CPE is an open source online code compiler for C, C++, Python, Java.
+# Codegrep Online Compiler.
+Welcome to Codegrep Online Compiler.
+Codegrep is an open source online code compiler for C, C++, Python, Java.
 
 ### Functionality
 - Error shown at which line
