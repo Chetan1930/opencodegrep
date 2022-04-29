@@ -1,16 +1,38 @@
 import React from 'react'
-
+import TerminalIcon from '@mui/icons-material/Terminal';
+import { TextField } from '@mui/material';
+import TaskIcon from '@mui/icons-material/Task';
+import { green } from '@mui/material/colors';
 export const Output = (props) => {
     return (
-        <div className="output" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '0.8vw', backgroundColor: props.bgcol, marginTop: '-8px', paddingTop: '40px', overflowY: 'scroll', position: 'relative', height: '30vh', fontSize: '0.98em', borderTop: `0.1px solid ${props.border}`, color: props.col }}>
-            <h6 style={{ color: props.col, zIndex: '99', position: 'absolute', top: '15px', fontSize: '15.25px' }}>Output </h6>
-            <div className="output" style={{ color: 'white', display: 'flex', flexDirection: 'column' }}>
+        <div className="output" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '0.8vw', backgroundColor: '#232121', marginTop: '0px', paddingTop: '16px', overflowY: 'scroll', position: 'relative', height: '93vh', fontSize: '0.98em', width: '30vw', borderLeft: '1px solid #343a40' }}>
+            <div className="headlogos" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <TerminalIcon style={{width:'21px',height:'26px',marginLeft:'6px'}} />
+                <p style={{ fontSize: '13.25px',marginBottom:'-1.58px',marginLeft:'3px' }}>Console </p>
+            </div>
+            <div className="textarea">
+                <TextField
+                style={{width:'96%',marginTop:'20px'}}
+                InputProps={{ style: {fontSize: 12.9} }}InputLabelProps={{style: { fontSize: 12.9 } }}
+                    id="outlined-multiline-static"
+                    label="Input"
+                    multiline
+                    value={props.input}
+                    onChange={e=>props.setInput(e.target.value)}
+                    rows={4}
+                />
+            </div>
+            <div className="headlogos" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',marginTop:"25px" }}>
+                <TaskIcon style={{width:'21px',height:'26px',marginLeft:'6px'}} />
+                <hp style={{ fontSize: '13.25px',marginBottom:'-1.58px',marginLeft:'3px' }}>Output </hp>
+            </div>
+            <div className="output" style={{ color: 'white', display: 'flex', flexDirection: 'column',marginTop:'15px' ,marginLeft:'3px'}}>
                 {(props.op[0]) ?
-                    <span style={{ color: props.buildcol }}> Build success: <span style={{color:'gray'}}> {props.op[2]}ms execution time</span></span> : <></>}
-                <p style={{ color: props.col }}>{props.op[0]}</p>
+                    <span style={{ color: '#34ce34',fontSize:'12.95px'}}> Build success: <span style={{ color: 'gray' }}> {props.op[2]}ms execution time</span></span> : <></>}
+                <p style={{ color: 'white',fontSize:'13px'}}>{props.op[0]}</p>
                 {(props.op[1]) ?
-                    <span style={{ color: 'red' ,marginTop:'-15px'}}> Build failed: </span> : <></>}
-                <p style={{ color: props.col }}>{props.op[1]}</p>
+                    <span style={{ color: 'red', marginTop: '-15px',fontSize:'12.75px' }}> Build failed: </span> : <></>}
+                <p style={{ color: 'white',fontSize:'13px'}}>{props.op[1]}</p>
             </div>
         </div>
     )

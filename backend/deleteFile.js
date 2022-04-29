@@ -20,5 +20,13 @@ const deleteFile = (filePath) => {
                         // console.log(e)
                 }
         }
+        if(ext=='txt'){
+                try {
+                        fs.unlinkSync(`./codes/${fn}.txt`)
+                }
+                catch (e) {
+                        // console.log(e)
+                }
+        }
 }
 module.exports = { deleteFile }

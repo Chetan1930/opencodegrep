@@ -17,36 +17,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/run', async (req, res) => {
     const inDate = new Date()
-    const { language, code } = req.body
+    const { language, code, input } = req.body
     if (!language) return res.json({ error: 'No language mentioned' })
     if (!code) return res.json({ error: 'Empty code' })
     const fileCreatedPath = await createFile(code, language)
+    const inputFile = await createFile(input, 'txt')
     if (language === 'cpp') {
-        const out = await runcpp(fileCreatedPath)
+        const out = await runcpp(fileCreatedPath,inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
+        deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'java') {
-        const out = await runjava(fileCreatedPath)
+        const out = await runjava(fileCreatedPath,inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
+        deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'py') {
-        const out = await runpy(fileCreatedPath)
+        const out = await runpy(fileCreatedPath,inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
+        deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'c') {
-        const out = await runc(fileCreatedPath)
+        const out = await runc(fileCreatedPath,inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
+        deleteFile(inputFile)
         res.send(out);
     }
 })
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log("listening on port 5000");
+app.listen(process.env.PORT || 8000, () => {
+    console.log("listening on port 8000");
 })
