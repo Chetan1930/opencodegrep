@@ -1,5 +1,4 @@
 import React from 'react'
-import CodeEditor from '@uiw/react-textarea-code-editor';
 import Editor from "@monaco-editor/react";
 export const TextEditor = (props) => {
     
@@ -19,6 +18,7 @@ export const TextEditor = (props) => {
             /> */}
             <Editor
                 height="92.85vh"
+                width="100%"
                 theme="vs-dark"
                 language={props.lang==="py"?"python":props.lang}
                 value={props.c}

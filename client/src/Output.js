@@ -2,10 +2,9 @@ import React from 'react'
 import TerminalIcon from '@mui/icons-material/Terminal';
 import { TextField } from '@mui/material';
 import TaskIcon from '@mui/icons-material/Task';
-import { green } from '@mui/material/colors';
 export const Output = (props) => {
     return (
-        <div className="output" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '0.8vw', backgroundColor: '#232121', marginTop: '0px', paddingTop: '16px', overflowY: 'scroll', position: 'relative', height: '93vh', fontSize: '0.98em', width: '30vw', borderLeft: '1px solid #343a40' }}>
+        <div className="output" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', paddingLeft: '0.8vw', backgroundColor: '#232121', marginTop: '0px', paddingTop: '16px', overflowY: 'scroll', position: 'relative', height: '93vh', fontSize: '0.98em', width: '30.5vw', borderLeft: '1px solid #343a40',marginLeft:'-6px' }}>
             <div className="headlogos" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <TerminalIcon style={{width:'21px',height:'26px',marginLeft:'6px'}} />
                 <p style={{ fontSize: '13.25px',marginBottom:'-1.58px',marginLeft:'3px' }}>Console </p>
