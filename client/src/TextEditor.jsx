@@ -4,7 +4,7 @@ export const TextEditor = (props) => {
     
     function handleEditorChange(value, event) {
         props.code(value)
-        console.log("here is the current model value:", value);
+        // console.log("here is the current model value:", value);
       }
     return (
 
