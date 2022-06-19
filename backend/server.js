@@ -21,9 +21,9 @@ const io = new Server(server, { cors: { origin: "*" } })
 io.on('connection', (socket) => {
     console.log(`a user connected with id :${socket.id}`);
     socket.on('getcode',(code)=>{
+        if(code.roomid)
         socket.broadcast.emit(`sendcode${code.roomid}`, {code:code.code,lang:code.lang});
     })
-    
     socket.on('disconnect',()=>{
         console.log(`a user disconnected with id: ${socket.id}`);
     })
