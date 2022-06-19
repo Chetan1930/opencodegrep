@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import './App.css';
 import { Navbar } from './Navbar';
 import { Output } from './Output';
@@ -8,6 +8,14 @@ import javaraw from './java.txt'
 import craw from './c.txt'
 import pyraw from './py.txt'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import io from "socket.io-client";
+const socket = io(`localhost:8000`)
+
 
 function App() {
   const darkTheme = createTheme({
@@ -16,14 +24,15 @@ function App() {
     },
   });
   const [code, setCode] = useState('')
+  const [code1,setSendCode]=useState('')
   const [language, setLanguage] = useState('java')
   const [output, setOutput] = useState([])
   const [dark, setDark] = useState(false)
-  const [input,setInput]=useState('')
-  //
+  const [input, setInput] = useState('')
+  const [room, setroom] = useState('')
   async function sendCode() {
     // in development mode this will be localhost:8000
-    const resp = await fetch('http://3.120.129.71:8000/run', {
+    const resp = await fetch('http://localhost:8000/run', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -35,7 +44,7 @@ function App() {
       })
     })
     const data = await resp.json()
-    console.log(data);
+    console.debug(data);
     setOutput(data);
   }
   function setProplang(e) {
@@ -53,6 +62,13 @@ function App() {
     else setDark(false)
   }, [])
 
+  useLayoutEffect(() => {
+    socket.on(`sendcode${room}`, code => {
+      setCode(code.code)
+      setLanguage(code.lang)
+    })
+  })
+
   useEffect(() => {
     localStorage.setItem('dark', dark)
   }, [dark])
@@ -65,6 +81,7 @@ function App() {
           return response.text();
         }).then(function (data) {
           setCode(data);
+          setSendCode(data)
         })
     }
 
@@ -74,6 +91,7 @@ function App() {
           return response.text();
         }).then(function (data) {
           setCode(data);
+          setSendCode(data)
         })
     }
 
@@ -83,6 +101,7 @@ function App() {
           return response.text();
         }).then(function (data) {
           setCode(data);
+          setSendCode(data)
         })
     }
 
@@ -92,21 +111,43 @@ function App() {
           return response.text();
         }).then(function (data) {
           setCode(data);
+          setSendCode(data)
         })
     }
 
   }, [language])
+  useEffect(() => {
+    socket.emit('getcode', {
+      code: code1,
+      roomid: room,
+      lang:language
+    })
+  }, [code1, language, room])
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Navbar run={sendCode} selectlang={setProplang} langsel={language} mode={dark}></Navbar>
-        <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
-          <TextEditor code={setCode} c={code} lang={language}></TextEditor>
-          <Output input={input} setInput={setInput} b op={output}></Output>
+    <BrowserRouter>
+      <ThemeProvider theme={darkTheme}>
+        <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
+          <Navbar run={sendCode} selectlang={setProplang} langsel={language} mode={dark}></Navbar>
+          <Routes>
+            <Route path="/join/:roomid" element={
+              <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                <TextEditor setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                <Output input={input} setInput={setInput} b op={output}></Output>
+              </div>
+            } />
+            <Route path="/" element={
+              <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                <TextEditor setroom={setroom} code={setCode}  setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                <Output input={input} setInput={setInput} b op={output}></Output>
+              </div>
+            } />
+
+          </Routes>
+
         </div>
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

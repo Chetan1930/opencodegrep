@@ -14,6 +14,20 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const server = require('http').createServer(app)
+const { Server } = require('socket.io')
+const io = new Server(server, { cors: { origin: "*" } })
+
+io.on('connection', (socket) => {
+    console.log(`a user connected with id :${socket.id}`);
+    socket.on('getcode',(code)=>{
+        socket.broadcast.emit(`sendcode${code.roomid}`, {code:code.code,lang:code.lang});
+    })
+    
+    socket.on('disconnect',()=>{
+        console.log(`a user disconnected with id: ${socket.id}`);
+    })
+  });
 
 app.post('/run', async (req, res) => {
     const inDate = new Date()
@@ -23,28 +37,28 @@ app.post('/run', async (req, res) => {
     const fileCreatedPath = await createFile(code, language)
     const inputFile = await createFile(input, 'txt')
     if (language === 'cpp') {
-        const out = await runcpp(fileCreatedPath,inputFile)
+        const out = await runcpp(fileCreatedPath, inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'java') {
-        const out = await runjava(fileCreatedPath,inputFile)
+        const out = await runjava(fileCreatedPath, inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'py') {
-        const out = await runpy(fileCreatedPath,inputFile)
+        const out = await runpy(fileCreatedPath, inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         deleteFile(inputFile)
         res.send(out);
     }
     if (language === 'c') {
-        const out = await runc(fileCreatedPath,inputFile)
+        const out = await runc(fileCreatedPath, inputFile)
         out.push(new Date() - inDate);
         deleteFile(fileCreatedPath)
         deleteFile(inputFile)
@@ -52,6 +66,6 @@ app.post('/run', async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 8000, () => {
+server.listen(process.env.PORT || 8000, () => {
     console.log("listening on port 8000");
 })

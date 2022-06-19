@@ -1,9 +1,17 @@
 import React from 'react'
 import Editor from "@monaco-editor/react";
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
 export const TextEditor = (props) => {
+    const {roomid}=useParams()
     
+    useEffect(()=>{
+        props.setroom(roomid)
+    },[props, roomid])
     function handleEditorChange(value, event) {
         props.code(value)
+        props.setSendCode(value)
         // console.log("here is the current model value:", value);
       }
     return (
@@ -23,7 +31,6 @@ export const TextEditor = (props) => {
                 language={props.lang==="py"?"python":props.lang}
                 value={props.c}
                 onChange={handleEditorChange}
-                
             />
 
         </div>
