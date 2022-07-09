@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import { Link, useNavigate } from 'react-router-dom';
 import uniqid from 'uniqid';
-
+import logo from './assets/logo1.png'
 export const Navbar = (props) => {
     const navigate=useNavigate()
     function handleSelect(e) {
@@ -12,7 +12,7 @@ export const Navbar = (props) => {
     return (
         <nav className="navbar navbar-light" style={{ backgroundColor:'rgb(39,39,39)',borderBottom:'1px solid #343a40'}}>
             <div className="container-fluid">
-                <a href="/" className="navbar-brand" style={{ color: 'white', fontSize: '19.9px', paddingLeft: '0.25vw',fontWeight:"normal" }}><span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}>&lt;</span>codegrep/<span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}>&gt;</span></a>
+                <a href="/" className="navbar-brand" style={{ color: 'white', fontSize: '19.9px', paddingLeft: '0.25vw',fontWeight:"normal" }}><span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}> <img style={{width:'37px',marginRight:'10px',marginLeft:'8px',border:'1px solid #343a40'}} src={logo} alt=""></img></span>codegrep<span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}></span></a>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* <button onClick={()=>{props.dark()}} style={{backgroundColor:'transparent',outline:'none',border:'none',width:'fit-content',height:'fit-content'}}><img src={dark} style={{width:'30px',height:'30px',marginBottom:'-11px'}} alt="" /></button> */}
                     <Link to={`/join/${uniqid()}`}><Button style={{'marginRight':'18px','marginTop':'2px'}}>
