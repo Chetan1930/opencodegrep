@@ -28,7 +28,7 @@ export const Output = (props) => {
             <div className="output" style={{ color: 'white', display: 'flex', flexDirection: 'column', marginTop: '15px', marginLeft: '3px' }}>
                 {(props.op[0]) ?
                     <span style={{ color: '#34ce34', fontSize: '12.95px' }}> Build success: <span style={{ color: 'gray' }}> {props.op[2]}ms execution time</span></span> : <></>}
-                <p style={{ color: 'white', fontSize: '13px' }}>{`${props.op[0]}`}</p>
+                <p style={{ color: 'white', fontSize: '13px' }}>{props.op[0]?props.op[0]:"Run code to show output"}</p>
                 {(props.op[1]) ?
                     <span style={{ color: 'red', marginTop: '-15px', fontSize: '12.75px' }}> Build failed: </span> : <></>}
                 <p style={{ color: 'white', fontSize: '13px' }}>{props.op[1]}</p>
