@@ -1,12 +1,13 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Link } from 'react-router-dom';
 import uniqid from 'uniqid';
-import logo from './assets/logo1.png'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SaveIcon from '@mui/icons-material/Save';
 import DownloadIcon from '@mui/icons-material/Download';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 export const Navbar = (props) => {
     function handleSelect(e) {
@@ -28,14 +29,14 @@ export const Navbar = (props) => {
                     <Button onClick={()=>{props.toggleDark()}} title="Dark mode toggle" style={{'marginRight':'4px','marginTop':'2px', height: '35px',color:'white'}}>
                         <Brightness4Icon sx={{fontSize:'19px',color:props.dark?'white':'black'}} />
                     </Button>
-                    <Link to={`/join/${uniqid()}`}><Button title="Collab"  style={{'marginRight':'10px','marginTop':'2px', height: '35px',color:'white'}}>
-                        <PeopleOutlineIcon sx={{fontSize:'22px',color:props.dark?'white':'black'}} />
+                    <Link to={`/join/${uniqid()}`}><Button title="Collab"  style={{'marginRight':'4px','marginTop':'2px', height: '35px',color:'white'}}>
+                        <PeopleAltIcon sx={{fontSize:'21px',color:props.dark?'white':'black'}} />
                     </Button></Link>
-                    <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase',backgroundColor:'#5090D3' ,'marginRight':'18px'}}>
-                        Sign In
+                    <Button title="Login" onClick={() => props.run()}  size="medium" sx={{ height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase' ,marginRight:'4px'}}>
+                        <VpnKeyIcon sx={{fontSize:'22px',color:props.dark?'white':'black'}}  />
                     </Button>
-                    <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase',backgroundColor:'#5090D3' }}>
-                        run
+                    <Button title="Run Code" onClick={() => props.run()} size="medium" sx={{height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase'}}>
+                        <PlayArrowIcon sx={{fontSize:'24px',color:props.dark?'white':'black'}}  />
                     </Button>
                     <select className="form-select mx-4" style={{ width: '8vw', fontSize: '12px', marginTop: '1.9px',height:'34px' }} aria-label="Default select example" onChange={(e) => handleSelect(e)} value={props.langsel}>
                         <option value="cpp">C++</option>

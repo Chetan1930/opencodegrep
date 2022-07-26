@@ -69,7 +69,12 @@ $ npm start
 
 
 ## Overview
+
+#### Dark Mode :
 <img src="./images/1.png">
+
+#### Light Mode :
+<img src="./images/2.png">
 
 #### *Realtime code collaboration* : 
 <img src="./images/videoimg.gif">

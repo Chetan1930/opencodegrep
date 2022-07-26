@@ -17,6 +17,7 @@ export const TextEditor = (props) => {
     return (
         <div className="textarea" style={{ height: '93vh', overflowY: 'scroll', backgroundColor: '#080808', width: '70vw' }}>
             <Editor
+                fontSize= "22px"
                 height="92.85vh"
                 width="100%"
                 theme={props.dark?'vs-dark':"vs"}
