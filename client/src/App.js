@@ -18,18 +18,20 @@ const socket = io(`localhost:8000`)
 
 
 function App() {
+  const [dark, setDark] = useState(false)
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: dark?'dark':'light',
     },
   });
   const [code, setCode] = useState('')
-  const [code1,setSendCode]=useState('')
+  const [code1, setSendCode] = useState('')
   const [language, setLanguage] = useState('java')
   const [output, setOutput] = useState([])
-  const [dark, setDark] = useState(false)
   const [input, setInput] = useState('')
   const [room, setroom] = useState('')
+
+
   async function sendCode() {
     // in development mode this will be localhost:8000
     const resp = await fetch('http://localhost:8000/run', {
@@ -50,17 +52,6 @@ function App() {
   function setProplang(e) {
     setLanguage(e)
   }
-  useEffect(() => {
-    if (localStorage.getItem('lang')) {
-      setLanguage(localStorage.getItem('lang'))
-    }
-    else setLanguage('cpp')
-
-    if (localStorage.getItem('dark') === true || localStorage.getItem('dark') === true) {
-      setDark(localStorage.getItem('dark'))
-    }
-    else setDark(false)
-  }, [])
 
   useLayoutEffect(() => {
     socket.on(`sendcode${room}`, code => {
@@ -68,10 +59,6 @@ function App() {
       setLanguage(code.lang)
     })
   })
-
-  useEffect(() => {
-    localStorage.setItem('dark', dark)
-  }, [dark])
 
   useEffect(() => {
     localStorage.setItem('lang', language)
@@ -120,26 +107,30 @@ function App() {
     socket.emit('getcode', {
       code: code1,
       roomid: room,
-      lang:language
+      lang: language
     })
   }, [code1, language, room])
+
+  const toggleDark=()=>{
+    setDark((prev)=>!prev)
+  }
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
-          <Navbar run={sendCode} selectlang={setProplang} langsel={language} mode={dark}></Navbar>
+          <Navbar toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
           <Routes>
             <Route path="/join/:roomid" element={
               <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextEditor setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output input={input} setInput={setInput} b op={output}></Output>
+                <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                <Output dark={dark} input={input} setInput={setInput} b op={output}></Output>
               </div>
             } />
             <Route path="/" element={
               <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextEditor setroom={setroom} code={setCode}  setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output input={input} setInput={setInput} b op={output}></Output>
+                <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                <Output dark={dark} input={input} setInput={setInput} b op={output}></Output>
               </div>
             } />
 

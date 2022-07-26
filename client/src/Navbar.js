@@ -1,23 +1,39 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import uniqid from 'uniqid';
 import logo from './assets/logo1.png'
+import SaveIcon from '@mui/icons-material/Save';
+import DownloadIcon from '@mui/icons-material/Download';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+
 export const Navbar = (props) => {
-    const navigate=useNavigate()
     function handleSelect(e) {
         props.selectlang(e.target.value)
     }
+    //rgb(39,39,39) rgb(144,202,249) #343a40
     return (
-        <nav className="navbar navbar-light" style={{ backgroundColor:'rgb(39,39,39)',borderBottom:'1px solid #343a40'}}>
+        <nav className="navbar navbar-light" style={{ backgroundColor:props.dark?"rgb(39,39,39)":'#f9f9f9',borderBottom:props.dark?'1px solid #343a40':'1px solid rgb(222,222,222)'}}>
             <div className="container-fluid">
-                <a href="/" className="navbar-brand" style={{ color: 'white', fontSize: '19.9px', paddingLeft: '0.25vw',fontWeight:"normal" }}><span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}> <img style={{width:'37px',marginRight:'10px',marginLeft:'8px',border:'1px solid #343a40'}} src={logo} alt=""></img></span>codegrep<span style={{color:'rgb(144,202,249)',fontWeight:'bold'}}></span></a>
+                <a href="/" className="navbar-brand" style={{ color: props.dark?'white':'black', fontSize: '19.9px', paddingLeft: '0.8vw',fontWeight:"normal" }}><span style={{color:props.dark?'white':'black',fontWeight:'bold',marginRight:'7px',marginTop:'-3px'}}>&#60;/&#62;</span>codegrep</a>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* <button onClick={()=>{props.dark()}} style={{backgroundColor:'transparent',outline:'none',border:'none',width:'fit-content',height:'fit-content'}}><img src={dark} style={{width:'30px',height:'30px',marginBottom:'-11px'}} alt="" /></button> */}
-                    <Link to={`/join/${uniqid()}`}><Button style={{'marginRight':'18px','marginTop':'2px'}}>
-                        <PeopleOutlineIcon />
+                    <Button title="Save" style={{'marginRight':'4px','marginTop':'2px', height: '35px',color:'white'}}>
+                        <SaveIcon sx={{fontSize:'19px',color:props.dark?'white':'black'}} />
+                    </Button>
+                    <Button title="Download" style={{'marginRight':'4px','marginTop':'2px', height: '35px',color:'white'}}>
+                        <DownloadIcon sx={{fontSize:'19px',color:props.dark?'white':'black'}} />
+                    </Button>
+                    <Button onClick={()=>{props.toggleDark()}} title="Dark mode toggle" style={{'marginRight':'4px','marginTop':'2px', height: '35px',color:'white'}}>
+                        <Brightness4Icon sx={{fontSize:'19px',color:props.dark?'white':'black'}} />
+                    </Button>
+                    <Link to={`/join/${uniqid()}`}><Button title="Collab"  style={{'marginRight':'10px','marginTop':'2px', height: '35px',color:'white'}}>
+                        <PeopleOutlineIcon sx={{fontSize:'22px',color:props.dark?'white':'black'}} />
                     </Button></Link>
+                    <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase',backgroundColor:'#5090D3' ,'marginRight':'18px'}}>
+                        Sign In
+                    </Button>
                     <Button onClick={() => props.run()} variant="contained" size="medium" sx={{ width: '99px', height: '35px' ,marginTop:'2px' ,fontSize:'12.95px',color:'white',fontFamily: 'Source Code Pro',textTransform:'lowercase',backgroundColor:'#5090D3' }}>
                         run
                     </Button>
