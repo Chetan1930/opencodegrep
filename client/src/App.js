@@ -21,7 +21,7 @@ function App() {
   const [dark, setDark] = useState(false)
   const darkTheme = createTheme({
     palette: {
-      mode: dark?'dark':'light',
+      mode: dark ? 'dark' : 'light',
     },
   });
   const [code, setCode] = useState('')
@@ -59,6 +59,14 @@ function App() {
       setLanguage(code.lang)
     })
   })
+  useEffect(() => {
+    if (!localStorage.getItem('dark')) return
+    if (localStorage.getItem('dark') === 'dark') {
+      setDark(true)
+    } else if (localStorage.getItem('dark') === 'light') {
+      setDark(false)
+    }
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('lang', language)
@@ -111,8 +119,11 @@ function App() {
     })
   }, [code1, language, room])
 
-  const toggleDark=()=>{
-    setDark((prev)=>!prev)
+  const toggleDark = () => {
+    if (dark)
+      localStorage.setItem('dark', 'light')
+    else localStorage.setItem('dark', 'dark')
+    setDark((prev) => !prev)
   }
 
   return (
