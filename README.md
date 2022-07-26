@@ -5,6 +5,9 @@ Codegrep is an open source online code compiler for C , C++ , Python , Java.
 ##  Features 
 ##### *Realtime code collaboration with multiple users* , Error shown at which line ,  Output formatted , Comments , Syntax Highlight , Dark / light mode , Auto indent , Execution time
 
+## On Built Features
+##### Login/signup, save code ,download code
+
 
 ## Prerequisites
 Make sure you have installed all of the following prerequisites on your development machine:
