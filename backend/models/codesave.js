@@ -21,6 +21,10 @@ const codesaveSchema=new mongoose.Schema({
     filename:{
         type:String,
         required:true,
+    },
+    language:{
+        type:String,
+        required:true,
     }
 })
 

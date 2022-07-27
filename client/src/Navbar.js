@@ -1,8 +1,7 @@
 import React from 'react'
 import Button from '@mui/material/Button';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { Link } from 'react-router-dom';
-import uniqid from 'uniqid';
+import { useNavigate } from 'react-router-dom';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SaveIcon from '@mui/icons-material/Save';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -14,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar = (props) => {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     function handleSelect(e) {
@@ -29,6 +29,35 @@ export const Navbar = (props) => {
         setOpen(false);
     };
 
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+    };
+
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+    const [open2, setOpen2] = React.useState(false);
+
+    const handleClickOpen2 = () => {
+        if (!props.authUser) {
+            toast.error('Login to Collab', {
+                duration: 2000,
+                style: {
+                    fontFamily: 'Poppins',
+                    fontSize: '12.5px'
+                },
+            });
+            return
+        }
+        setOpen2(true);
+    };
+
+    const handleClose2 = () => {
+        setOpen2(false);
+    };
+    const [roomid, setRoomid] = useState('')
     const login = async () => {
         const data = { email: email, password: password };
         fetch(`http://localhost:8000/auth/login`, {
@@ -86,9 +115,20 @@ export const Navbar = (props) => {
         setPassword('')
     }
 
-    const logout=()=>{
+    const logout = () => {
         props.setAuthUser(null)
         localStorage.removeItem('uid')
+        handleClose1()
+    }
+
+    const download=()=>{
+        toast.error('Error', {
+            duration: 2000,
+            style: {
+                fontFamily: 'Poppins',
+                fontSize: '12.5px'
+            },
+        });
     }
 
     const saveCode = () => {
@@ -104,6 +144,23 @@ export const Navbar = (props) => {
         }
 
     }
+
+    const collab = () => {
+
+        if (roomid === '') {
+            toast.error('Enter joining id', {
+                duration: 2000,
+                style: {
+                    fontFamily: 'Poppins',
+                    fontSize: '12.5px'
+                },
+            });
+            return
+        }
+        handleClose2()
+        navigate(`/join/${roomid}`)
+    }
+
     return (
         <nav className="navbar navbar-light" style={{ backgroundColor: props.dark ? "rgb(39,39,39)" : '#f9f9f9', borderBottom: props.dark ? '1px solid #343a40' : '1px solid rgb(222,222,222)' }}>
             <div className="container-fluid">
@@ -114,22 +171,68 @@ export const Navbar = (props) => {
                     <Button onClick={saveCode} title="Save" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <SaveIcon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
-                    <Button title="Download" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
+                    <Button title="Download" onClick={download} style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <DownloadIcon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
                     <Button onClick={() => { props.toggleDark() }} title="Dark mode toggle" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <Brightness4Icon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
-                    <Link to={`/join/${uniqid()}`}><Button title="Collab" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
+                    <Button onClick={handleClickOpen2} title="Collab" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <PeopleAltIcon sx={{ fontSize: '21px', color: props.dark ? 'white' : 'black' }} />
-                    </Button></Link>
+                    </Button>
+                    <Dialog open={open2} onClose={handleClose2}>
+                        <DialogTitle sx={{ fontFamily: 'Source Code Pro' }}>Code Collaboration</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText sx={{ fontFamily: 'Source Code Pro', fontSize: '14px' }}>
+                                Enter a joining id to start your code collab
+                            </DialogContentText>
+                            <TextField
+                                InputProps={{ style: { fontSize: 12.9, fontFamily: 'Source Code Pro' } }}
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Enter joining id"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                sx={{ marginTop: '18px' }}
+                                value={roomid}
+                                onChange={(e) => { setRoomid(e.target.value) }}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={handleClose2}>Cancel</Button>
+                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={collab}>Join</Button>
+                        </DialogActions>
+                    </Dialog>
                     {
-                        props.authUser ? <Button title="Logout" onClick={()=>logout()} size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
-                            <LogoutIcon sx={{ fontSize: '20px', color: props.dark ? 'white' : 'black' }} />
+                        props.authUser ? <Button title="Logout" onClick={() => handleClickOpen1()} size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
+                            <LogoutIcon sx={{ fontSize: '18.85px', color: props.dark ? 'white' : 'black' }} />
                         </Button> : <Button title="Login" onClick={() => handleClickOpen()} size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
                             <VpnKeyIcon sx={{ fontSize: '22px', color: props.dark ? 'white' : 'black' }} />
                         </Button>
                     }
+                    <Dialog
+                        open={open1}
+                        onClose={handleClose1}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title" sx={{ fontFamily: 'Source Code Pro' }}>
+                            {"Logout"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description" sx={{ fontFamily: 'Source Code Pro' }}>
+                                Are you sure you want to logout
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={handleClose1}>No</Button>
+                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={logout}>
+                                logout
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
 
                     <Dialog open={open} onClose={handleClose}>
                         <DialogTitle sx={{ fontFamily: 'Source Code Pro' }}>Login / Signup</DialogTitle>
