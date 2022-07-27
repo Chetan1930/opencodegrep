@@ -12,6 +12,8 @@ require('dotenv').config()
 const { userModel } = require('./models/user')
 const bcrypt = require("bcrypt");
 var uniqid = require('uniqid');
+const { codeModel } = require('./models/codesave')
+const { v4: codeid } = require('uuid')
 
 
 mongoose.connect(process.env.mongodb).then(() => {
@@ -91,7 +93,7 @@ app.post('/auth/login', async (req, res) => {
     }
 })
 
-app.post('/auth/signup', async(req, res) => {
+app.post('/auth/signup', async (req, res) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const createuser = new userModel({
@@ -100,15 +102,37 @@ app.post('/auth/signup', async(req, res) => {
             password: await bcrypt.hash(req.body.password, salt)
         })
         await createuser.save();
-        res.status(200).send(await userModel.findOne({ email: req.body.email }, { password: 0,email:0,_id:0 }))
+        res.status(200).send(await userModel.findOne({ email: req.body.email }, { password: 0, email: 0, _id: 0 }))
     }
     catch (err) {
         res.status(400).send(err)
     }
 })
 
-app.post('/savecode', (req, res) => {
-    //body has code + uid + filename +time
+app.post('/savecode', async (req, res) => {
+    try {
+        const newcode = new codeModel({
+            uid: req.body.uid,
+            code: req.body.code,
+            codeid: codeid(),
+            createdAt: Date.now(),
+            filename: req.body.filename,
+            language: req.body.language
+        })
+        await newcode.save()
+        res.status(200).send({ success: true })
+    } catch (err) {
+        res.status(400).send("err")
+    }
+})
+
+app.post('/download',async (req,res)=>{
+    const {code,language}=req.body
+    const fileCreatedPath = await createFile(code, language)
+    res.download(fileCreatedPath)
+    setTimeout(()=>{
+        deleteFile(fileCreatedPath)
+    },2000)
 })
 
 server.listen(process.env.PORT || 8000, () => {

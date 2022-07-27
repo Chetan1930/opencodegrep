@@ -29,4 +29,4 @@ const codesaveSchema=new mongoose.Schema({
 })
 
 const codeModel=new mongoose.model('code',codesaveSchema)
-module.exports=codeModel
+module.exports={codeModel}

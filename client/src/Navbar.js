@@ -57,7 +57,9 @@ export const Navbar = (props) => {
     const handleClose2 = () => {
         setOpen2(false);
     };
+
     const [roomid, setRoomid] = useState('')
+
     const login = async () => {
         const data = { email: email, password: password };
         fetch(`http://localhost:8000/auth/login`, {
@@ -121,7 +123,7 @@ export const Navbar = (props) => {
         handleClose1()
     }
 
-    const download=()=>{
+    const download = () => {
         toast.error('Error', {
             duration: 2000,
             style: {
@@ -142,11 +144,9 @@ export const Navbar = (props) => {
             });
             return
         }
-
     }
 
     const collab = () => {
-
         if (roomid === '') {
             toast.error('Enter joining id', {
                 duration: 2000,
@@ -280,22 +280,6 @@ export const Navbar = (props) => {
                         <option value="py">Python</option>
                         <option value="c">C</option>
                     </select>
-                    {/* <FormControl sx={{ width: '99px', height: '35px',marginLeft:'19px',marginTop:'2px',marginRight:'29px' }}>
-                        <InputLabel id="demo-simple-select-label">Language</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={props.langsel}
-                            label="Language"
-                            onChange={(e) => handleSelect(e)}
-                            sx={{ width: '99px', height: '39px' }}
-                        >
-                            <MenuItem value={'cpp'}>C++</MenuItem>
-                            <MenuItem value={'py'}>Python</MenuItem>
-                            <MenuItem value={'java'}>Java</MenuItem>
-                            <MenuItem value={'c'}>C</MenuItem>
-                        </Select>
-                    </FormControl> */}
                 </div>
             </div>
         </nav>
