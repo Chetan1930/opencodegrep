@@ -13,7 +13,7 @@ export const Output = (props) => {
             <div className="textarea">
                 <TextField
                     style={{ width: '96%', marginTop: '20px', fontFamily: 'Source Code Pro',backgroundColor:'transparent' }}
-                    InputProps={{ style: { fontSize: 12.9,fontFamily: 'Source Code Pro' } }} InputLabelProps={{ style: { fontSize: 12.9,fontFamily: 'Source Code Pro' } }}
+                    InputProps={{ style: { fontSize: 12.9,fontFamily: 'Source Code Pro' } }} I
                     id="outlined-multiline-static"
                     label="Input"
                     multiline
