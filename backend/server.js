@@ -126,7 +126,7 @@ app.post('/savecode', async (req, res) => {
     }
 })
 
-app.post('/download',async (req,res)=>{
+app.post('/download',async(req,res)=>{
     const {code,language}=req.body
     const fileCreatedPath = await createFile(code, language)
     res.download(fileCreatedPath)

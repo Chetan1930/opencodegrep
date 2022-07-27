@@ -123,16 +123,6 @@ export const Navbar = (props) => {
         handleClose1()
     }
 
-    const download = () => {
-        toast.error('Error', {
-            duration: 2000,
-            style: {
-                fontFamily: 'Poppins',
-                fontSize: '12.5px'
-            },
-        });
-    }
-
     const saveCode = () => {
         if (!props.authUser) {
             toast.error('Login to Save', {
@@ -144,6 +134,7 @@ export const Navbar = (props) => {
             });
             return
         }
+        props.save()
     }
 
     const collab = () => {
@@ -171,7 +162,7 @@ export const Navbar = (props) => {
                     <Button onClick={saveCode} title="Save" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <SaveIcon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
-                    <Button title="Download" onClick={download} style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
+                    <Button title="Download" onClick={props.download} style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
                         <DownloadIcon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
                     <Button onClick={() => { props.toggleDark() }} title="Dark mode toggle" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>

@@ -3,10 +3,7 @@ Welcome to Codegrep Online Compiler.
 Codegrep is an open source online code compiler for C , C++ , Python , Java.
 <!-- ##### aws deploted link : http://3.73.119.14:3000 -->
 ##  Features 
-##### *Realtime code collaboration with multiple users* , Error shown at which line ,  Output formatted , Comments , Syntax Highlight , Dark / light mode , Auto indent , Execution time
-
-## On Built Features
-##### Login/signup, save code ,download code
+##### *Realtime code collaboration with multiple users* , Error shown at which line ,  Output formatted , Comments , Syntax Highlight , Dark / light mode , Auto indent , Execution time , Login/signup , Save code , Download code
 
 
 ## Prerequisites

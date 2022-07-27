@@ -32,6 +32,7 @@ function App() {
   const [input, setInput] = useState('')
   const [room, setroom] = useState('')
   const [authUser, setAuthUser] = useState(null)
+  // const [filename, setFilename] = useState('')
 
 
   async function sendCode() {
@@ -146,13 +147,76 @@ function App() {
     }
     setDark((prev) => !prev)
   }
+  const download = async () => {
+    const got = await fetch('http://localhost:8000/download', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: new URLSearchParams({
+        'language': language,
+        'code': code
+      })
+    })
+    const blob = await got.blob();
+    console.log(blob);
+    //text/x-c
+    //text/x-java-source
+    //application/octet-stream
 
+
+    // if(blob.type==='text/x-c'){
+    //   setFilename("main.c")
+    // }if(blob.type==='application/octet-stream'){
+    //   setFilename("main.py")
+    // } if(blob.type==='text/x-java-source'){
+    //   setFilename(`main.java`)
+    // }
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'code.txt');
+    document.body.appendChild(link);
+    link.click();
+  }
+  const save = async () => {
+    const got = await fetch('http://localhost:8000/savecode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      body: new URLSearchParams({
+        'uid': authUser,
+        'language': language,
+        'code': code,
+        'filename': 'main',
+      })
+    })
+    const pos = await got.json()
+    if (pos.success) {
+      toast.success('Saved', {
+        duration: 2000,
+        style: {
+          fontFamily: 'Poppins',
+          fontSize: '12.5px'
+        },
+      });
+    }else{
+      toast.error('Error Saving', {
+        duration: 2000,
+        style: {
+          fontFamily: 'Poppins',
+          fontSize: '12.5px'
+        },
+      });
+    }
+  }
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
         <Toaster />
         <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
-          <Navbar authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
+          <Navbar save={save} download={download} authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
           <Routes>
             <Route path="/join/:roomid" element={
               <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
