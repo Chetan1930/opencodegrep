@@ -14,6 +14,7 @@ import {
   Route,
 } from "react-router-dom";
 import io from "socket.io-client";
+import toast, { Toaster } from 'react-hot-toast';
 const socket = io(`localhost:8000`)
 
 
@@ -30,6 +31,7 @@ function App() {
   const [output, setOutput] = useState([])
   const [input, setInput] = useState('')
   const [room, setroom] = useState('')
+  const [authUser, setAuthUser] = useState(null)
 
 
   async function sendCode() {
@@ -66,6 +68,8 @@ function App() {
     } else if (localStorage.getItem('dark') === 'light') {
       setDark(false)
     }
+    if (!localStorage.getItem('uid')) return
+    setAuthUser(localStorage.getItem('uid'))
   }, [])
 
   useEffect(() => {
@@ -120,28 +124,46 @@ function App() {
   }, [code1, language, room])
 
   const toggleDark = () => {
-    if (dark)
+    if (dark) {
       localStorage.setItem('dark', 'light')
-    else localStorage.setItem('dark', 'dark')
+      toast.success('Light Mode', {
+        duration: 2000,
+        style: {
+          fontFamily: 'Poppins',
+          fontSize: '12.5px'
+        },
+      });
+    }
+    else {
+      localStorage.setItem('dark', 'dark')
+      toast.success('Dark Mode', {
+        duration: 2000,
+        style: {
+          fontFamily: 'Poppins',
+          fontSize: '12.5px'
+        },
+      });
+    }
     setDark((prev) => !prev)
   }
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme}>
+        <Toaster />
         <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
-          <Navbar toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
+          <Navbar authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
           <Routes>
             <Route path="/join/:roomid" element={
               <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
                 <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output dark={dark} input={input} setInput={setInput} b op={output}></Output>
+                <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
               </div>
             } />
             <Route path="/" element={
               <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
                 <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output dark={dark} input={input} setInput={setInput} b op={output}></Output>
+                <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
               </div>
             } />
 
