@@ -1,12 +1,12 @@
 const express = require('express')
 var cors = require('cors')
 var bodyParser = require('body-parser')
-const { createFile } = require('./createFile')
-const { runcpp } = require('./runCpp')
-const { runjava } = require('./runJava')
-const { runpy } = require('./runPy')
-const { runc } = require('./runC')
-const { deleteFile } = require('./deleteFile')
+const { createFile } = require('./utils/createFile')
+const { runcpp } = require('./functions/runCpp')
+const { runjava } = require('./functions/runJava')
+const { runpy } = require('./functions/runPy')
+const { runc } = require('./functions/runC')
+const { deleteFile } = require('./utils/deleteFile')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const { userModel } = require('./models/user')
@@ -122,7 +122,7 @@ app.post('/savecode', async (req, res) => {
         await newcode.save()
         res.status(200).send({ success: true })
     } catch (err) {
-        res.status(400).send("err")
+        res.send({success: false})
     }
 })
 
