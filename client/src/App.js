@@ -15,6 +15,11 @@ import {
 } from "react-router-dom";
 import io from "socket.io-client";
 import toast, { Toaster } from 'react-hot-toast';
+import {ListView} from './ListView'
+import View from './View'
+import CustomNavbar from './CustomNavbar';
+
+
 const socket = io(`localhost:8000`)
 
 
@@ -27,7 +32,7 @@ function App() {
   });
   const [code, setCode] = useState('')
   const [code1, setSendCode] = useState('')
-  const [language, setLanguage] = useState('java')
+  const [language, setLanguage] = useState(localStorage.getItem('lang') || 'java')
   const [output, setOutput] = useState([])
   const [input, setInput] = useState('')
   const [room, setroom] = useState('')
@@ -130,7 +135,7 @@ function App() {
       toast.success('Light Mode', {
         duration: 2000,
         style: {
-          fontFamily: 'Poppins',
+          fontFamily: 'Source Code Pro',
           fontSize: '12.5px'
         },
       });
@@ -140,7 +145,7 @@ function App() {
       toast.success('Dark Mode', {
         duration: 2000,
         style: {
-          fontFamily: 'Poppins',
+          fontFamily: 'Source Code Pro',
           fontSize: '12.5px'
         },
       });
@@ -197,15 +202,15 @@ function App() {
       toast.success('Saved', {
         duration: 2000,
         style: {
-          fontFamily: 'Poppins',
+          fontFamily: 'Source Code Pro',
           fontSize: '12.5px'
         },
       });
-    }else{
+    } else {
       toast.error('Error Saving', {
         duration: 2000,
         style: {
-          fontFamily: 'Poppins',
+          fontFamily: 'Source Code Pro',
           fontSize: '12.5px'
         },
       });
@@ -216,21 +221,41 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <Toaster />
         <div className="App" style={{ display: 'flex', flexDirection: 'column' }}>
-          <Navbar save={save} download={download} authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
+
           <Routes>
             <Route path="/join/:roomid" element={
-              <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
-              </div>
+              <>
+                <Navbar save={save} download={download} authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
+                <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                  <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                  <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
+                </div></>
             } />
             <Route path="/" element={
-              <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
-                <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
-                <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
-              </div>
+              <>
+                <Navbar save={save} download={download} authUser={authUser} setAuthUser={setAuthUser} toggleDark={toggleDark} dark={dark} run={sendCode} selectlang={setProplang} langsel={language}></Navbar>
+                <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                  <TextEditor dark={dark} setroom={setroom} code={setCode} setSendCode={setSendCode} c={code} lang={language}></TextEditor>
+                  <Output dark={dark} input={input} setInput={setInput} op={output}></Output>
+                </div>
+              </>
             } />
-
+            <Route path="/code/:codeid" element={
+              <>
+                <CustomNavbar dark={dark} run={sendCode} />
+                <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View code={setCode} dark={dark}></View>
+                </div>
+              </>
+            } />
+            <Route path="/codes/:uid" element={
+              <>
+                <CustomNavbar dark={dark} run={sendCode} />
+                <div className="codeditor" style={{ display: 'flex', flexDirection: 'row' }}>
+                  <ListView></ListView>
+                </div>
+              </>
+            } />
           </Routes>
 
         </div>

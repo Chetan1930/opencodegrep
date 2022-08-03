@@ -1,16 +1,15 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { useNavigate } from 'react-router-dom';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SaveIcon from '@mui/icons-material/Save';
 import DownloadIcon from '@mui/icons-material/Download';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Menu, MenuItem, TextField } from '@mui/material';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar = (props) => {
     const navigate = useNavigate()
@@ -29,15 +28,7 @@ export const Navbar = (props) => {
         setOpen(false);
     };
 
-    const [open1, setOpen1] = React.useState(false);
 
-    const handleClickOpen1 = () => {
-        setOpen1(true);
-    };
-
-    const handleClose1 = () => {
-        setOpen1(false);
-    };
     const [open2, setOpen2] = React.useState(false);
 
     const handleClickOpen2 = () => {
@@ -45,7 +36,7 @@ export const Navbar = (props) => {
             toast.error('Login to Collab', {
                 duration: 2000,
                 style: {
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Source Code Pro',
                     fontSize: '12.5px'
                 },
             });
@@ -71,14 +62,21 @@ export const Navbar = (props) => {
         })
             .then(response => response.json())
             .then(data => {
-                localStorage.setItem('uid', JSON.stringify(data.uid))
+                localStorage.setItem('uid', data.uid)
                 props.setAuthUser(data.uid)
+                toast.success('Logged In', {
+                    duration: 2000,
+                    style: {
+                        fontFamily: 'Source Code Pro',
+                        fontSize: '12.5px'
+                    },
+                });
             })
             .catch((error) => {
                 toast.error('Error logging in', {
                     duration: 2000,
                     style: {
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Source Code Pro',
                         fontSize: '12.5px'
                     },
                 });
@@ -100,13 +98,20 @@ export const Navbar = (props) => {
             .then(response => response.json())
             .then(data => {
                 props.setAuthUser(data.uid)
-                localStorage.setItem('uid', JSON.stringify(data.uid))
+                localStorage.setItem('uid', data.uid)
+                toast.success('Logged You In', {
+                    duration: 2000,
+                    style: {
+                        fontFamily: 'Source Code Pro',
+                        fontSize: '12.5px'
+                    },
+                });
             })
             .catch((error) => {
                 toast.error('Error logging in', {
                     duration: 2000,
                     style: {
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Source Code Pro',
                         fontSize: '12.5px'
                     },
                 });
@@ -120,7 +125,14 @@ export const Navbar = (props) => {
     const logout = () => {
         props.setAuthUser(null)
         localStorage.removeItem('uid')
-        handleClose1()
+        toast.success('Logged Out', {
+            duration: 2000,
+            style: {
+                fontFamily: 'Source Code Pro',
+                fontSize: '12.5px'
+            },
+        });
+        handleClosemen()
     }
 
     const saveCode = () => {
@@ -128,7 +140,7 @@ export const Navbar = (props) => {
             toast.error('Login to Save', {
                 duration: 2000,
                 style: {
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Source Code Pro',
                     fontSize: '12.5px'
                 },
             });
@@ -142,7 +154,7 @@ export const Navbar = (props) => {
             toast.error('Enter joining id', {
                 duration: 2000,
                 style: {
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Source Code Pro',
                     fontSize: '12.5px'
                 },
             });
@@ -150,6 +162,19 @@ export const Navbar = (props) => {
         }
         handleClose2()
         navigate(`/join/${roomid}`)
+    }
+
+    const [anchorEl, setAnchorEl] = useState(false);
+    const openmen = Boolean(anchorEl);
+    function handleClickmen (event) {
+        setAnchorEl(event.currentTarget);
+    };
+    function handleClosemen() {
+        setAnchorEl(null);
+    };
+    function redirectSaved(){
+        handleClosemen()
+        navigate(`/codes/${localStorage.getItem('uid')}`)
     }
 
     return (
@@ -169,7 +194,7 @@ export const Navbar = (props) => {
                         <Brightness4Icon sx={{ fontSize: '19px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
                     <Button onClick={handleClickOpen2} title="Collab" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
-                        <PeopleAltIcon sx={{ fontSize: '21px', color: props.dark ? 'white' : 'black' }} />
+                        <GroupsIcon sx={{ fontSize: '22.5px', color: props.dark ? 'white' : 'black' }} />
                     </Button>
                     <Dialog open={open2} onClose={handleClose2}>
                         <DialogTitle sx={{ fontFamily: 'Source Code Pro' }}>Code Collaboration</DialogTitle>
@@ -197,34 +222,24 @@ export const Navbar = (props) => {
                         </DialogActions>
                     </Dialog>
                     {
-                        props.authUser ? <Button title="Logout" onClick={() => handleClickOpen1()} size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
-                            <LogoutIcon sx={{ fontSize: '18.85px', color: props.dark ? 'white' : 'black' }} />
+                        props.authUser ? <Button onClick={handleClickmen} title="Account" size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
+                            <AccountCircleIcon sx={{ fontSize: '21px', color: props.dark ? 'white' : 'black' }} />
                         </Button> : <Button title="Login" onClick={() => handleClickOpen()} size="medium" sx={{ height: '35px', marginTop: '2px', fontSize: '12.95px', color: 'white', fontFamily: 'Source Code Pro', textTransform: 'lowercase', marginRight: '4px' }}>
-                            <VpnKeyIcon sx={{ fontSize: '22px', color: props.dark ? 'white' : 'black' }} />
+                            <AccountCircleIcon sx={{ fontSize: '21px', color: props.dark ? 'white' : 'black' }} />
                         </Button>
                     }
-                    <Dialog
-                        open={open1}
-                        onClose={handleClose1}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={openmen}
+                        onClose={handleClosemen}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button"
+                        }}
                     >
-                        <DialogTitle id="alert-dialog-title" sx={{ fontFamily: 'Source Code Pro' }}>
-                            {"Logout"}
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description" sx={{ fontFamily: 'Source Code Pro' }}>
-                                Are you sure you want to logout
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={handleClose1}>No</Button>
-                            <Button sx={{ fontFamily: 'Source Code Pro' }} onClick={logout}>
-                                logout
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-
+                        <MenuItem sx={{ fontFamily: 'Source Code Pro',fontSize:'13px' }} onClick={redirectSaved}>Saved</MenuItem>
+                        <MenuItem sx={{ fontFamily: 'Source Code Pro',fontSize:'13px'  }} onClick={logout}>Logout</MenuItem>
+                    </Menu>
                     <Dialog open={open} onClose={handleClose}>
                         <DialogTitle sx={{ fontFamily: 'Source Code Pro' }}>Login / Signup</DialogTitle>
                         <DialogContent>

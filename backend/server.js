@@ -122,17 +122,28 @@ app.post('/savecode', async (req, res) => {
         await newcode.save()
         res.status(200).send({ success: true })
     } catch (err) {
-        res.send({success: false})
+        res.send({ success: false })
     }
 })
 
-app.post('/download',async(req,res)=>{
-    const {code,language}=req.body
+app.post('/download', async (req, res) => {
+    const { code, language } = req.body
     const fileCreatedPath = await createFile(code, language)
     res.download(fileCreatedPath)
-    setTimeout(()=>{
+    setTimeout(() => {
         deleteFile(fileCreatedPath)
-    },2000)
+    }, 2000)
+})
+
+app.get('/codes/:uid',async(req,res)=>{
+    const codes=await codeModel.find({uid:req.params.uid},{code:0})
+    res.send(codes)
+})
+
+
+app.get('/code/:codeid',async(req,res)=>{
+    const codes=await codeModel.find({codeid:req.params.codeid})
+    res.send(codes)
 })
 
 server.listen(process.env.PORT || 8000, () => {
