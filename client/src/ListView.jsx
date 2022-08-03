@@ -1,42 +1,55 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import CodeIcon from '@mui/icons-material/Code';
+import { useState } from 'react';
+import { Box } from '@mui/system';
+import ReactTimeAgo from 'react-time-ago'
+import { Button, Typography } from '@mui/material';
+import View from './View';
 
+export const ListView = (props) => {
+  const params = useParams()
+  const [list, setList] = useState([])
+  const [codeidt, setCodeId] = useState('')
+  useEffect(() => {
+    async function getCode() {
+      const resp = await fetch(`http://localhost:8000/codes/${params.uid}`)
+      const code = await resp.json()
+      setList(code)
+    }
+    getCode()
+  }, [params.uid])
+  const toggleCode = (e) => {
+    setCodeId(e.target.innerHTML);
+  }
 
-export const ListView=()=>{
-    return(
-        <>
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <WorkIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Work" secondary="Jan 7, 2014" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <BeachAccessIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Vacation" secondary="July 20, 2014" />
-      </ListItem>
-    </List>
-        </>
-    )
+  return (
+    <>
+      <Box style={{ display: 'flex', flexDirection: 'column', height: '91vh', overflowY: 'scroll', paddingRight: '2vw', width: '30%'}}>
+        <Typography sx={{ textAlign: 'left', paddingLeft: '2.5vw', fontFamily: 'Source Code Pro', fontSize: '20px', marginTop: '20px', marginBottom: '10px' }}>Saved Codes</Typography>
+        {
+          list.map((item) => {
+            return <Button key={item._id} id={item.codeid} onClick={(e) => { toggleCode(e) }} sx={{ marginLeft: '1.8vw', cursor: 'pointer' }}>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <CodeIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <Typography sx={{ fontSize: '14px', fontFamily: 'Source Code Pro' }}>{item.codeid}</Typography>
+                  <Typography sx={{ fontSize: '12px', fontFamily: 'Source Code Pro' }}>{<ReactTimeAgo date={Date.parse(item.createdAt)} locale="en-US" />}</Typography>
+                </div>
+              </ListItem>
+            </Button>
+          })
+        }
+      </Box>
+      <View codeid={codeidt} dark={props.dark} />
+    </>
+  )
 }
