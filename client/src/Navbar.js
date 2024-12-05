@@ -181,7 +181,7 @@ export const Navbar = (props) => {
         <nav className="navbar navbar-light" style={{ backgroundColor: props.dark ? "rgb(39,39,39)" : '#f9f9f9', borderBottom: props.dark ? '1px solid #343a40' : '1px solid rgb(222,222,222)',height:'59px' }}>
             <div className="container-fluid">
                 <Toaster />
-                <a href="/" className="navbar-brand" style={{ color: props.dark ? 'white' : 'black', fontSize: '19.9px', paddingLeft: '0.8vw', fontWeight: "normal" }}><span style={{ color: props.dark ? '#616161' : '#a7a0a0', fontWeight: 'bold', marginRight: '7px', marginTop: '-3px' }}>&#60;/&#62;</span>codegrep</a>
+                <a href="/" className="navbar-brand" style={{ color: props.dark ? 'white' : 'black', fontSize: '19.9px', paddingLeft: '0.8vw', fontWeight: "normal" }}><span style={{ color: props.dark ? '#616161' : '#a7a0a0', fontWeight: 'bold', marginRight: '7px', marginTop: '-3px' }}>&#60;/&#62;</span>CodeVelocity</a>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {/* <button onClick={()=>{props.dark()}} style={{backgroundColor:'transparent',outline:'none',border:'none',width:'fit-content',height:'fit-content'}}><img src={dark} style={{width:'30px',height:'30px',marginBottom:'-11px'}} alt="" /></button> */}
                     <Button onClick={saveCode} title="Save" style={{ 'marginRight': '4px', 'marginTop': '2px', height: '35px', color: 'white' }}>
