@@ -95,6 +95,8 @@ function App() {
     }
 
     if (language === 'java') {
+
+      // return ("Env is not setup ....we are working in it");
       fetch(javaraw)
         .then(function (response) {
           return response.text();
@@ -181,6 +183,8 @@ function App() {
     // } if(blob.type==='text/x-java-source'){
     //   setFilename(`main.java`)
     // }
+
+
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
